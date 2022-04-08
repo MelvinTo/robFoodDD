@@ -6,3 +6,4 @@ users:
     addressNum: 0 # 此处建议选择自己常用地址<添加新地址后，请更新此地址索引号>
     payMethodNum: 2 # 支付方式序号[1：支付宝 2：微信<default>)]
     settlementMode: 1 # 结算模式序号 [1：结算所有有效商品（不包括换购）<default> 2：结算所有勾选商品（包括换购)]
+retryOnEmptyCart: false # 如果是true，遇到空购物车的情况会自动重试，不会退出

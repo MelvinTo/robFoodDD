@@ -19,14 +19,14 @@ func main() {
 	for _, user := range dd.GetConfigX().Users {
 		wg.Add(1)
 		time.Sleep(5) //间隔账号之间的登录时间，同时运行会报鉴权异常
-		go robFood(user, &wg)
+		go robFood(user, &wg, dd.GetConfigX().RetryOnEmptyCart)
 	}
 	wg.Wait()
 
 }
 
 //robDood: cookie 用户信息 action: 操作动作
-func robFood(user dd.UserModel, wg *sync.WaitGroup) {
+func robFood(user dd.UserModel, wg *sync.WaitGroup, retryOnEmptyCart bool) {
 	session := dd.DingdongSession{}
 	err := session.InitSession(user.Cookie, user.BarkId, user.AddressNum, user.PayMethodNum, user.SettlementMode)
 	if err != nil {
@@ -43,8 +43,15 @@ cartLoop:
 			continue
 		}
 		if len(session.Cart.ProdList) == 0 {
-			fmt.Printf("%s  ==> 购物车中无有效商品，请先前往app添加或勾选！\n", user.UserName)
-			return
+			if retryOnEmptyCart {
+				sleepInterval := 3 + rand.Intn(6)
+				fmt.Printf("购物车中无有效商品，等待%v秒后重试！\n", sleepInterval)
+				time.Sleep(time.Duration(sleepInterval) * time.Second)
+				continue
+			} else {
+				fmt.Printf("%s  ==> 购物车中无有效商品，请先前往app添加或勾选！\n", user.UserName)
+				return
+			}
 		}
 		for index, prod := range session.Cart.ProdList {
 			fmt.Printf("%s  ==> [%v] %s 数量：%v 总价：%s\n", user.UserName, index, prod.ProductName, prod.Count, prod.TotalPrice)

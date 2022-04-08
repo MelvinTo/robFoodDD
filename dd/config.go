@@ -9,11 +9,12 @@ const _FILE_PATH string = "./conf.yaml"
 const _FILE_TYPE string = "yaml"
 
 type ConfigModel struct {
-	Users []UserModel
+	Users            []UserModel
+	RetryOnEmptyCart bool `yaml:"retryOnEmptyCart"`
 }
 
 type UserModel struct {
-	UserName       string `yaml:"userName""`
+	UserName       string `yaml:"userName"`
 	Cookie         string `yaml:"cookie"`
 	DdmcUid        string `yaml:"ddmcUid"`
 	BarkId         string `yaml:"barkId"`
