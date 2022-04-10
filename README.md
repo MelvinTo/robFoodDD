@@ -45,6 +45,15 @@ ddmc-uid 经检查历史抓包记录，发现是今下午新增验证方式，�
 
 ```
 
+## 不抓包获取cookie喝ddmc-uid的方式
+* 打开桌面浏览器
+* 访问叮咚官方网页: `https://activity.m.ddxq.mobi/#/coupon?code=VERxg&h5_source=caocao&btnType=jumpApp&path=https%3A%2F%2Fu.100.me%2Fm%2Fmaicai&random=4`
+* 用叮咚买菜账户登陆
+* 登陆成功后访问网页: `https://activity.m.ddxq.mobi/#/`
+* 打开浏览器的调试（inspect）功能，调试界面顶栏选择Application
+  * 左边选择Local Storage, `https://activity.m.ddxq.mobi`，右边DDMC_ACTIVITY_USER_INFO里的uid就是ddmc-uid
+  * 左边选择Cookies，`https://activity.m.ddxq.mobi`, 右边DDXQSESSID的值就是登陆token信息
+* 保持页面不关闭，不排除sessionid可能会一段时间后失效，需要重新登陆
 ## 声明
 本项目仅供学习交流，严禁用作商业行为，特别禁止黄牛加价代抢等！
 
