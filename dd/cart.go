@@ -74,7 +74,7 @@ func (s *DingdongSession) GetCheckProd(result gjson.Result) error {
 	return nil
 }
 
-func (s *DingdongSession) CheckCart() error {
+func (s *DingdongSession) CheckCart(ddmcUid string) error {
 	Url, _ := url.Parse("https://maicai.api.ddxq.mobi/cart/index")
 	params := url.Values{}
 	params.Set("station_id", s.Address.StationId)
@@ -112,6 +112,7 @@ func (s *DingdongSession) CheckCart() error {
 	req.Header.Set("referer", "https://wx.m.ddxq.mobi/")
 	req.Header.Set("accept-language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
 	req.Header.Set("cookie", s.Cookie)
+	req.Header.Set("ddmc-uid", ddmcUid)
 
 	resp, err := s.Client.Do(req)
 	if err != nil {

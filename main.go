@@ -36,7 +36,7 @@ func robFood(user dd.UserModel, wg *sync.WaitGroup, retryOnEmptyCart bool) {
 cartLoop:
 	for true {
 		fmt.Printf("########## 获取购物车中有效商品【%s】 ###########\n", time.Now().Format("15:04:05"))
-		err = session.CheckCart()
+		err = session.CheckCart(user.DdmcUid)
 		if err != nil {
 			fmt.Println(err)
 			time.Sleep(1 * time.Second)
@@ -45,7 +45,7 @@ cartLoop:
 		if len(session.Cart.ProdList) == 0 {
 			if retryOnEmptyCart {
 				sleepInterval := 3 + rand.Intn(6)
-				fmt.Printf("购物车中无有效商品，等待%v秒后重试！\n", sleepInterval)
+				fmt.Printf("%s  ==> 购物车中无有效商品，等待%v秒后重试！\n", user.UserName, sleepInterval)
 				time.Sleep(time.Duration(sleepInterval) * time.Second)
 				continue
 			} else {
